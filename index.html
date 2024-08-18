@@ -39,6 +39,12 @@
                 document.oncontextmenu = ninth; 
             } 
             document.oncontextmenu = new Function('return false') 
+
+		if (/Mobi|Android/i.test(navigator.userAgent)) {
+			// Akses diizinkan
+			} else {
+			window.location.href = "http://www.example.com/desktop-not-allowed";
+		}
         </script> 
 		<Title>TTPD Taylor Swift</title>
 	</head>
