@@ -66,6 +66,8 @@
 			alert("NFC tidak didukung di perangkat ini.");
 		}
 
+const uid = "64:01:9C:B0";
+
 		function validateNFC(nfcData) {
 			// AJAX request untuk memvalidasi NFC di server
 			fetch('https://bluegrayink.github.io/ttpdmusic/405.html', {
@@ -86,6 +88,26 @@
 				console.error('Error:', error);
 			});
 		}
+
+const express = require('express');
+		const app = express();
+
+		app.use(express.json());
+
+		const validNFCs = ["64:01:9C:B0"]; // Contoh data NFC valid
+
+		app.post('/405.html', (req, res) => {
+		const { data } = req.body;
+		if (validNFCs.includes(data)) {
+			res.json({ valid: true });
+		} else {
+			res.json({ valid: false });
+		}
+		});
+
+		app.listen(3000, () => {
+			console.log('Server running on port 3000');
+		});
         </script> 
 		<Title>TTPD Taylor Swift</title>
 	</head>
