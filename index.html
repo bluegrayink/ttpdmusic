@@ -126,7 +126,6 @@ scanButton.addEventListener("click", async () => {
       log(`> Serial Number: ${serialNumber}`);
       log(`> Records: (${message.records.length})`);
 	  
-	  ndef.onreading = event => {
                     const uidArray = Array.from(new Uint8Array(event.serialNumber.split(':').map(val => parseInt(val, 16))));
                     const scannedUID = uidArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
 
@@ -135,7 +134,6 @@ scanButton.addEventListener("click", async () => {
                     } else {
                         document.getElementById('status').textContent = "Access Denied: Invalid NFC card.";
                     }
-                };
     });
   } catch (error) {
     log("Argh! " + error);
