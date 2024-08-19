@@ -45,6 +45,47 @@
 			} else {
 			window.location.href = "https://bluegrayink.github.io/ttpdmusic/404.html";
 		}
+
+		if ('NDEFReader' in window) {
+		const ndef = new NDEFReader();
+			ndef.scan().then(() => {
+				ndef.onreading = event => {
+					const decoder = new TextDecoder();
+					for (const record of event.message.records) {
+						const nfcData = decoder.decode(record.data);
+						console.log("Data from NFC: ", nfcData);
+
+					// Kirim data ke server untuk validasi
+						validateNFC(nfcData);
+					}
+				};
+			}).catch(error => {
+				console.log("Error: ", error);
+			});
+		} else {
+			alert("NFC tidak didukung di perangkat ini.");
+		}
+
+		function validateNFC(nfcData) {
+			// AJAX request untuk memvalidasi NFC di server
+			fetch('https://bluegrayink.github.io/ttpdmusic/405.html', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			body: JSON.stringify({ data: nfcData })
+			}).then(response => response.json())
+			.then(result => {
+				if (result.valid) {
+					// Akses diizinkan
+					window.location.href = "https://bluegrayink.github.io/ttpdmusic/";
+				} else {
+					alert("Kartu NFC tidak valid.");
+				}
+			}).catch(error => {
+				console.error('Error:', error);
+			});
+		}
         </script> 
 		<Title>TTPD Taylor Swift</title>
 	</head>
