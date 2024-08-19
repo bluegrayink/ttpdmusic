@@ -22,7 +22,7 @@
                     const scannedUID = uidArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
 
                     if (scannedUID === validUID) {
-                        window.location.href = "https://bluegrayink.github.io/ttpdmusic/";
+                        window.location.href = "https://bluegrayink.github.io/ttpdmusic/mp3.html";
                     } else {
                         document.getElementById('status').textContent = "Access Denied: Invalid NFC card.";
                     }
