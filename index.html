@@ -107,10 +107,7 @@ if (!("NDEFReader" in window))
 
   
     
-      <script>
-        const validUID = "64019CB0";
-
-scanButton.addEventListener("click", async () => {
+      <script>scanButton.addEventListener("click", async () => {
   log("User clicked scan button");
 
   try {
@@ -125,16 +122,7 @@ scanButton.addEventListener("click", async () => {
     ndef.addEventListener("reading", ({ message, serialNumber }) => {
       log(`> Serial Number: ${serialNumber}`);
       log(`> Records: (${message.records.length})`);
-      
-	   const uidArray = Array.from(new Uint8Array(event.serialNumber.split(':').map(val => parseInt(val, 16))));
-                    const scannedUID = uidArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
-
-	if (scannedUID === validUID) {
-                        window.location.href = "https://bluegrayink.github.io/ttpdmusic/";
-    } else {
-                        document.getElementById('status').textContent = "Access Denied: Invalid NFC card.";
-    }
-	);
+    });
   } catch (error) {
     log("Argh! " + error);
   }
