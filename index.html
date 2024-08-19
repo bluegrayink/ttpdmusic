@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate NFC Access</title>
+</head>
+<body>
+    <h2>Scan Your NFC Card to Access the Link</h2>
+    <p id="status">Waiting for NFC scan...</p>
+
+    <script>
+        const validUID = "64019CB0"; // UID without colons
+
+        if ('NDEFReader' in window) {
+            const ndef = new NDEFReader();
+            ndef.scan().then(() => {
+                document.getElementById('status').textContent = "NFC reader ready. Scan your card.";
+
+                ndef.onreading = event => {
+                    const uidArray = Array.from(new Uint8Array(event.serialNumber.split(':').map(val => parseInt(val, 16))));
+                    const scannedUID = uidArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+
+                    if (scannedUID === validUID) {
+                        window.location.href = "https://bluegrayink.github.io/ttpdmusic/";
+                    } else {
+                        document.getElementById('status').textContent = "Access Denied: Invalid NFC card.";
+                    }
+                };
+            }).catch(error => {
+                document.getElementById('status').textContent = "NFC not supported on this device.";
+                console.error("NFC Error:", error);
+            });
+        } else {
+            document.getElementById('status').textContent = "NFC is not supported in this browser.";
+        }
+    </script>
+</body>
+</html>
